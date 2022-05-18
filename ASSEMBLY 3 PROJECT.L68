@@ -1,0 +1,55 @@
+00001000 Starting Address
+Assembler used: EASy68K Editor/Assembler v5.16.01
+Created On: 2021/11/21 15:56:33
+
+00000000                             1  *-----------------------------------------------------------
+00000000                             2  * Title      : Reading a Text File with 68K Assembly
+00000000                             3  * Written by : Junjie Chen
+00000000                             4  * Date       : 11/21/2021
+00000000                             5  * Description: ASSEMBLY 3 PROJECT
+00000000                             6  *-----------------------------------------------------------
+00001000                             7      ORG    $1000
+00001000                             8  START:                  ; first instruction of program
+00001000                             9  
+00001000  43F9 00002000             10      LEA     filename, a1
+00001006  303C 0033                 11      move    #51,d0
+0000100A  4E4F                      12      trap    #15
+0000100C                            13      
+0000100C  243C 00002059             14      move.l  #filesize, d2
+00001012  43F9 00002009             15      lea     buffer, a1
+00001018  303C 0035                 16      move    #53, d0
+0000101C  4E4F                      17      trap    #15
+0000101E                            18      
+0000101E  363C 0005                 19      move    #5, d3 
+00001022                            20  
+00001022                            21  convert_loop:
+00001022  4A03                      22      tst.b d3
+00001024  6700 000A                 23      beq      done
+00001028  0419 0030                 24      sub.b #$30, (a1)+
+0000102C  5303                      25      sub.b #1, d3
+0000102E  60F2                      26      bra     convert_loop
+00001030                            27  done:
+00001030                            28  
+00001030  FFFF FFFF                 29      SIMHALT             ; halt simulator
+00001034                            30      
+00002000                            31      org  $2000
+00002000                            32      
+00002000= 66 69 6C 65 2E 74 ...     33  filename dc.b  'file.txt',0 
+00002009                            34  buffer ds.b 80 
+00002059= 50                        35  filesize dc.b 80
+0000205A                            36  
+0000205A                            37      END    START        ; last line of source
+
+No errors detected
+No warnings generated
+
+
+SYMBOL TABLE INFORMATION
+Symbol-name         Value
+-------------------------
+BUFFER              2009
+CONVERT_LOOP        1022
+DONE                1030
+FILENAME            2000
+FILESIZE            2059
+START               1000
